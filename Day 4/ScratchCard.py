@@ -4,7 +4,6 @@ data = open("Day 4\ScratchCard.txt", 'r')
 total_point = 0
 card_2 = {}
 winned_card = defaultdict(int)
-global_count = 0
 
 for index, line in enumerate(data):
     num = line.split("\n")[0].split(":")[1]
@@ -31,7 +30,5 @@ for key, value in card_2.items():
         for (i) in range (key + 1, ((win_count + 2) + key )):
             winned_card[str(i)] += winned_card[str(key)] 
 
-for win in winned_card.values():
-    global_count += win 
 print(total_point)
-print(global_count)
+print(sum(winned_card.values()))

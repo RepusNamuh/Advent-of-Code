@@ -1,0 +1,22 @@
+from collections import defaultdict
+
+D = open("Day 4\ScratchCard.txt", 'r')
+
+total_point = 0
+N = defaultdict(int)
+
+for i, line in enumerate(D):
+    N[i] += 1
+    first, rest = line.split("|")
+    id_, card = first.split(":")
+    card_nums = [int(x) for x in card.split()]
+    rest_nums = [int(x) for x in rest.split()]
+    val = len(set(card_nums) & set(rest_nums))
+    if val > 0:
+        total_point += 2**(val - 1)
+    for j in range(val):
+        N[i + 1 + j] += N[i]
+
+
+print(total_point)
+print(sum(N.values()))
