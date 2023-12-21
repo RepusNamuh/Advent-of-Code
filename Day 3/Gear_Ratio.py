@@ -9,23 +9,23 @@ ok = False
 gear = False
 temp_total = ""
 gears = []
-for line_num, row in enumerate(file):
-    line_dict[line_num] = row.split("\n")[0]
-    max_line = line_num
+for r, row in enumerate(file):
+    line_dict[r] = row.split("\n")[0]
+    max_line = r
 
-for line_num, row in line_dict.items():
-    for pos, c in enumerate(row):
-        if c.isdigit():
-            temp_total += c
-            for q in [ -1,0, 1]:
-                for s in [-1, 0, 1]:
-                    if 0<=line_num + q < max_line and 0<= pos + s < len(row):
-                        row = line_dict[line_num + q]
-                        ch = row[pos + s]
+for r, row in line_dict.items():
+    for c, ch in enumerate(row):
+        if ch.isdigit():
+            temp_total += ch
+            for rr in [ -1,0, 1]:
+                for cc in [-1, 0, 1]:
+                    if 0<=r + rr < max_line and 0<= c + cc < len(row):
+                        row = line_dict[r + rr]
+                        ch = row[c + cc]
                         if ch != "." and not ch.isdigit():
                                 ok = True  
                         if ch == '*':
-                            gears.append((line_num + q, pos + s))
+                            gears.append((r + rr, c + cc))
                             gear = True
 
         else:
@@ -37,7 +37,7 @@ for line_num, row in line_dict.items():
                 ok = False
             temp_total = ""
 
-for pos, gear in gear_adjecent.items():
+for c, gear in gear_adjecent.items():
     #print(gear, True if len(gear) == 2 else False)
     answer += gear[0] * gear[-1] if len(gear) == 2 else 0
     
