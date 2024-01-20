@@ -4,49 +4,41 @@ with open("Day 11\Cosmic.txt", 'r') as f:
 
 data = [list(line) for line in data]
 
-hash_table = []
-for r in range(len(data)):
-    for c in range(len(data[0])):
+change = 9999 # Degree of space expansion
+x_len = len(data[0])
+y_len = len(data)
+
+# recording original hash postion
+pos = []
+for r in range(y_len):
+    for c in range(x_len):
         if data[r][c] == "#":
-            hash_table.append((float(r), float(c)))
+            pos.append((float(r), float(c)))
 
-print(hash_table)
+# Changing x coordinate of each hash according to 'change'
 delta_depth = 0
-temp_data = data.copy()
-empty_row = []
-for i in range(len(temp_data)):
-    if "#" in temp_data[i]:
-        continue
-    else:
-        empty_row.append(i)
-        for  j, tup in enumerate(hash_table):
+for i in range(y_len):
+    if all(data[i][r] == '.' for r in range(x_len)):
+        for  j, tup in enumerate(pos):
             if tup[0] > i + delta_depth:
-                hash_table[j] = (tup[0] + 999999, tup[1])
-        delta_depth += 999999
+                pos[j] = (tup[0] + change, tup[1])
+        delta_depth += change
 
-temp_data = copy.deepcopy(data)
+# Changing y coordinate of each hash according to 'change'
 delta_len = 0
-empty_col = []
-for c in range(len(data[0])):
-    for r in range(len(data)): 
-        if data[r][c] == ".": 
-            if r == len(data) - 1:
-                empty_col.append(c)
-                for  j, tup in enumerate(hash_table):
-                    if tup[1] > c + delta_len:
-                        hash_table[j] = (tup[0], tup[1] + 999999)
-                delta_len += 999999
-            continue
-        break
-    
-data = temp_data
+for c in range(x_len):
+    if all(data[r][c] == '.' for r in range(y_len)):
+        for  j, tup in enumerate(pos):
+            if tup[1] > c + delta_len:
+                pos[j] = (tup[0], tup[1] + change)
+        delta_len += change
 
+# Calculating total by subtraction of coordinate
 total = 0
-for i in range(len(hash_table)):
-    for j in range(i + 1, len(hash_table)):
-        row_dis = abs(hash_table[j][0] - hash_table[i][0])
-        col_dis = abs(hash_table[j][1] - hash_table[i][1])
+for i in range(len(pos)):
+    for j in range(i + 1, len(pos)):
+        row_dis = abs(pos[j][0] - pos[i][0])
+        col_dis = abs(pos[j][1] - pos[i][1])
         total += row_dis + col_dis 
 
-print(hash_table)
 print(total)
