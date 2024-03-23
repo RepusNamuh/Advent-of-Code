@@ -16,7 +16,7 @@ def get_hash(label, current, string):
 def remove_hash(label, current):
     label = label
     # Don't ask if key in dict like this if box_dict[current]
-    # because it will create a new key in the dict
+    # because it will create a new key in the dict and default value to 0
     if current in box_dict: 
         if label in box_dict[current]:
             del box_dict[current][label]
